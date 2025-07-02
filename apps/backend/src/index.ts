@@ -5,6 +5,8 @@ import { Server } from 'socket.io';
 import dotenv from 'dotenv';
 import { setupSocket } from './socket/socket';
 import authRouter from './routes/auth';
+import { config } from './config/config';
+import cookieParser from 'cookie-parser';
 
 dotenv.config();
 
@@ -12,12 +14,19 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: '*'
-  },
+    origin: config.frontendUrl,
+    credentials: true
+  }
 });
 
-app.use(cors());
+app.use(cors({
+  origin: config.frontendUrl,
+  credentials: true
+}));
+
+
 app.use(express.json());
+app.use(cookieParser());
 app.get("/health", (req, res) => {
   res.status(200).send("OK");
 });
@@ -29,7 +38,7 @@ app.use("/v1/auth", authRouter);
 setupSocket(io);
 
 
-const PORT = process.env.PORT || 3001;
+const PORT = config.port || 3001;
 server.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
 });

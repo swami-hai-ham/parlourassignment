@@ -1,22 +1,20 @@
 import { Request, Response, NextFunction } from "express";
-import jwt, { JwtPayload } from 'jsonwebtoken';
-const JWT_SECRET = process.env.JWT_SECRET as string;
+import jwt from "jsonwebtoken";
+import { config } from "../config/config";
 
-export function userMiddleware(req: Request, res: Response, next: NextFunction) {
-    try {
-        const token = req.headers.authorization?.split(" ")[1] || "";
-        // console.log(token);
-        
-        const decoded = jwt.verify(token, JWT_SECRET) as JwtPayload;  // Type assertion
-        
-        if (decoded && typeof decoded === 'object' && decoded.userId) {
-            res.locals.userId = Number(decoded.userId);
-            console.log(res.locals.userId)
-        }
-        next();
-    } catch (e) {
-        return res.status(403).json({
-            error: e
-        });
-    }
-}
+export const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
+  const token = req.cookies.token;
+  if (!token) {
+    res.status(401).json({ message: "Unauthorized" });
+    return
+  }
+
+  try {
+    const decoded = jwt.verify(token, config.jwtSecret);
+    res.locals.user = decoded; 
+    next();
+  } catch (err) {
+    res.status(403).json({ message: "Forbidden" });
+    return;
+  }
+};

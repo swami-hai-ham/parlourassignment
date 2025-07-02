@@ -11,7 +11,7 @@ model Employee {
   id        String       @id @default(uuid())
   name      String
   pin       String
-  role      String       @default("employee") // optional: used if needed later
+  role      String       @default("employee") 
   tasks     Task[]
   punches   Attendance[]
 }
@@ -27,7 +27,7 @@ model Task {
 
 model Attendance {
   id         String     @id @default(uuid())
-  punchType  String     // "IN" or "OUT"
+  punchType  String     
   timestamp  DateTime   @default(now())
   employee   Employee   @relation(fields: [employeeId], references: [id])
   employeeId String

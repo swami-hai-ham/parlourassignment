@@ -6,7 +6,7 @@ export function setupSocket(io: Server) {
 
     socket.on('punch', (data) => {
       console.log('🕒 Punch event received:', data);
-      io.emit('attendanceUpdate', data); // broadcast to all dashboards
+      io.emit('attendanceUpdate', data); 
     });
 
     socket.on('disconnect', () => {
