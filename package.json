@@ -1,9 +1,9 @@
 {
   "name": "parlour-project",
   "private": true,
-  "scripts": {
-    "build": "turbo run build",
+ "scripts": {
     "dev": "turbo run dev",
+    "build": "turbo run build",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types"

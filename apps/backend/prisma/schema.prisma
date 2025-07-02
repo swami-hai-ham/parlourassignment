@@ -1,0 +1,47 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Employee {
+  id        String       @id @default(uuid())
+  name      String
+  pin       String
+  role      String       @default("employee") // optional: used if needed later
+  tasks     Task[]
+  punches   Attendance[]
+}
+
+model Task {
+  id          String     @id @default(uuid())
+  title       String
+  description String
+  status      String
+  assignedTo  Employee   @relation(fields: [employeeId], references: [id])
+  employeeId  String
+}
+
+model Attendance {
+  id         String     @id @default(uuid())
+  punchType  String     // "IN" or "OUT"
+  timestamp  DateTime   @default(now())
+  employee   Employee   @relation(fields: [employeeId], references: [id])
+  employeeId String
+}
+
+model User {
+  id       String   @id @default(uuid())
+  name     String
+  email    String   @unique
+  password String
+  role     Role     @default(ADMIN)
+}
+
+enum Role {
+  SUPER_ADMIN
+  ADMIN
+}
