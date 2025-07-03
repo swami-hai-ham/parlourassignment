@@ -10,11 +10,18 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction) 
   }
 
   try {
-    const decoded = jwt.verify(token, config.jwtSecret);
-    res.locals.user = decoded; 
-    next();
-  } catch (err) {
+  const decoded = jwt.verify(token, config.jwtSecret);
+  res.locals.user = decoded;
+  next();
+} catch (err: any) {
+  if (err.name === 'TokenExpiredError') {
+    res.status(401).json({ message: "Token expired" });
+  } else if (err.name === 'JsonWebTokenError') {
+    res.status(401).json({ message: "Invalid token" });
+  } else {
     res.status(403).json({ message: "Forbidden" });
-    return;
   }
+  return;
+}
+
 };

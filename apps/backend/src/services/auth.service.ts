@@ -23,16 +23,19 @@ export const handleLogin = async (body: any) => {
     throw { status: 401, message: "Invalid credentials" };
   }
 
-  const token = jwt.sign({ userId: user.id, role: user.role }, JWT_SECRET, {
-    expiresIn: "1h",
-  });
+const token = jwt.sign(
+  { userId: user.id, role: user.role },
+  JWT_SECRET,
+  { expiresIn: '1d' } 
+);
 
-  const cookieOptions = {
-    httpOnly: true,
-    secure: config.nodeEnv === "production",
-    sameSite: "none" as const,
-    maxAge: 3600000,
-  };
+const cookieOptions = {
+  httpOnly: true,
+  secure: config.nodeEnv === "production",
+  sameSite: "none" as const,
+  maxAge: 24 * 60 * 60 * 1000 
+};
+
   const { password, ...safeUser } = user;
   return { safeUser, token, cookieOptions };
 };
