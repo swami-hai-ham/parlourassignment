@@ -8,6 +8,7 @@ import authRouter from './routes/auth';
 import { config } from './config/config';
 import cookieParser from 'cookie-parser';
 import employeeRouter from './routes/employee';
+import taskRouter from './routes/task';
 
 dotenv.config();
 
@@ -34,6 +35,7 @@ app.get("/health", (req, res) => {
 
 app.use("/v1/auth", authRouter);
 app.use("/v1/employee", employeeRouter);
+app.use("/v1/task", taskRouter);
 
 
 setupSocket(io);

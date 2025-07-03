@@ -18,3 +18,18 @@ export const updateEmployeeInput = z.object({
   pin: z.string().min(3).max(10).optional(),
   role: z.string().optional()
 });
+
+export const createTaskInput = z.object({
+  title: z.string().min(1).max(100),
+  description: z.string().min(1).max(500),
+  status: z.enum(["pending", "in_progress", "completed"]).default("pending"),
+  employeeId: z.string().uuid()
+});
+
+
+export const updateTaskInput = z.object({
+  title: z.string().min(1).max(100).optional(),
+  description: z.string().min(1).max(500).optional(),
+  status: z.enum(["pending", "in_progress", "completed"]).optional(),
+  employeeId: z.string().uuid().optional()
+});

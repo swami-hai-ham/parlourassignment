@@ -1,9 +1,5 @@
 import { Request, Response } from "express";
-import { fetchAllEmployeesService } from "../services/employee.service";
-import { createEmployeeService } from "../services/employee.service";
-import { getEmployeeByIdService } from "../services/employee.service";
-import { updateEmployeeService } from "../services/employee.service";
-import { deleteEmployeeService } from "../services/employee.service";
+import { fetchAllEmployeesService, createEmployeeService, getEmployeeByIdService, updateEmployeeService, deleteEmployeeService } from "../services/employee.service";
 
 
 export const getAllEmployees = async (req: Request, res: Response) => {

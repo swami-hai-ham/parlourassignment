@@ -1,5 +1,4 @@
 import { Router } from "express"; 
-import { login, logout } from "../controllers/auth.controller";
 import { authMiddleware } from "../middleware/authMiddleware";
 import {requireRole} from "../middleware/roleMiddleware"
 import { createEmployee, deleteEmployee, getAllEmployees, getEmployeeById, updateEmployee } from "../controllers/employee.controller";
